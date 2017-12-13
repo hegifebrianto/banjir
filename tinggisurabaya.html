@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link href="css/metro-bootstrap.css" rel="stylesheet">
+    <link href="css/metro-bootstrap-responsive.css" rel="stylesheet">
+    <link href="css/iconFont.css" rel="stylesheet">
+    <link href="css/docs.css" rel="stylesheet">
+    <link href="js/prettify/prettify.css" rel="stylesheet">
+
+    <!-- Load JavaScript Libraries -->
+    <script src="js/jquery/jquery.min.js"></script>
+    <script src="js/jquery/jquery.widget.min.js"></script>
+    <script src="js/jquery/jquery.mousewheel.js"></script>
+    <script src="js/prettify/prettify.js"></script>
+
+    <!-- Metro UI CSS JavaScript plugins -->
+    <script src="js/load-metro.js"></script>
+	<script src="js/metro-dropdown.js"></script>
+
+    <!-- Local JavaScript -->
+    <script src="js/docs.js"></script>
+    <script src="js/github.info.js"></script>
+
+    <title>Banjir Daerah Urban</title>
+    <style>
+    </style>
+	
+	
+	<script type="text/javascript">
+	function display(container){
+		$('#'+container).slideToggle('fast');
+	}
+	</script>
+ 
+
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBHzLsnQiyobOC2pg_3wZsa0R7O9wkCCt8&sensor=false"></script>
+		<script>
+	var elevator;
+	var peta;
+	var infowindow = new google.maps.InfoWindow();
+	var bandung = new google.maps.LatLng(-7.2742175,112.719087);
+	 
+	// membuat layer map terrain
+	function initialize() {
+	  var mapOptions = {
+		zoom: 13,
+		center: bandung,
+		mapTypeId: 'terrain'
+	  }
+	  peta = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+	 
+	  // memanggil service elevation
+	  elevator = new google.maps.ElevationService();
+	 
+	  // membuat event agar map dapat melakukan reaksi jika terdapat klik pada map
+	  // dan memanggil fungsi
+	  google.maps.event.addListener(peta, 'click', getElevation);
+	}
+	 
+	function getElevation(event) {
+	  var lokasi = [];
+	  // Mengambil koordinat dari area yang diklik dan mengubahnya menjadi array
+	  var titiklokasi = event.latLng;
+	  lokasi.push(titiklokasi);
+	 
+	  // membuat object dari lokasi yang didapat
+	  var positionalRequest = {
+		'locations': lokasi
+	  }
+	 
+	  // mengirimkan request lokasi ke service
+	  elevator.getElevationForLocations(positionalRequest, function(results, status) {
+		if (status == google.maps.ElevationStatus.OK) {
+	 
+		  // jika data ditemukan, maka service akan mengirimkan hasilnya
+		  if (results[0]) {
+	 
+			// membuat infowindow untuk menampilkan hasilnya
+			infowindow.setContent('Ketinggian pada koordinat ini adalah ' + results[0].elevation + ' meter.   ');
+			infowindow.setPosition(titiklokasi);
+			infowindow.open(peta);
+		  } else {
+			alert('Tidak ditemukan hasil apapun');
+		  }
+		} else {
+		  alert('Service gagal: ' + status);
+		}
+	  });
+	}
+	 
+	google.maps.event.addDomListener(window, 'load', initialize);
+	 
+	</script>
+	
+	
+	
+</head>
+<base href="http://localhost/banjir/" />
+<body onload="init()"  class="metro" style="background-color: #efeae3">
+    <header class="bg-dark ">
+		<nav class="navigation-bar dark">
+			<div class="navigation-bar-content">
+				<a  href="/banjir/index.html" class="element image-button image-left place-left">Urban Flooding<img src="images/logo.png"></a>
+			<span class="element-divider"></span>
+			</div>
+		</nav>
+	</header>
+	    <div class="container">
+                <div class="grid fluid">
+                        <div class="row">
+                            <div class="span3">
+                                <nav class="sidebar dark">
+                                    <ul>
+										<li class="title">Surabaya</li>
+                                        <li class="stick bg-green"><a href="/banjir/petasurabaya.html"><i class="icon-cog"></i>Peta Surabaya</a></li>
+                                        <li class="stick bg-green"><a href="/banjir/admsurabaya.html"><i class="icon-cog"></i>Administrasi</a></li>
+										<li class="stick bg-green"><a href="/banjir/sungaisurabaya.html"><i class="icon-cog"></i>Sungai</a></li>
+										<li class="stick bg-green"><a href="/banjir/pintuairsurabaya.html"><i class="icon-cog"></i>Pintu Air</a></li>
+										<li class="stick bg-green"><a href="/banjir/pompaairsurabaya.html"><i class="icon-cog"></i>Pompa Air</a></li>
+										<li class="stick bg-green"><a href="/banjir/rumahpompasurabaya.html"><i class="icon-cog"></i>Rumah Pompa</a></li>
+										<li class="stick bg-green"><a href="/banjir/bozemsurabaya.html"><i class="icon-cog"></i>Bozem</a></li>
+										<li class="stick bg-green"><a href="/banjir/damsurabaya.html"><i class="icon-cog"></i>DAM</a></li>
+										<li class="stick bg-green"><a href="/banjir/tinggisurabaya.html"><i class="icon-cog"></i>Ketinggian </a></li>
+									
+                                        <!--<li class="title">Jakarta</li>
+                                        <li class="stick bg-blue"><a href="/banjir/petajakarta.html"><i class="icon-cog"></i>Peta Jakarta</a></li>
+                                        <li class="stick bg-blue"><a href="/banjir/sungaijakarta.html"><i class="icon-cog"></i>Sungai</a></li>
+										<li class="stick bg-blue"><a href="/banjir/pintuairjakarta.html"><i class="icon-cog"></i>Pintu Air</a></li>
+										<li class="stick bg-blue"><a href="/banjir/pompaairjakarta.html"><i class="icon-cog"></i>Pompa Air</a></li>
+										<li class="stick bg-blue"><a href="/banjir/tinggijakarta.html"><i class="icon-cog"></i>Ketinggian</a></li>-->
+                                    </ul>
+                                </nav>
+                            </div>
+							
+                            <div class="padding0 span9">
+								<p class="description">
+									<center> <h3> KETINGGIAN SURABAYA </h3></center>
+								</p>
+								<div class="span12" align="center" id="map-canvas" style=" border:solid #000; width: 800px; height: 450px ">
+								</div>
+
+							</div>
+                        </div>
+                    </div>
+
+                <div class="grid">
+                    <div class="row">
+
+                        
+                    </div>
+                </div>
+
+    </div>
+	
+		
+		<div class="bg-dark">
+            <div class="container" style="padding: 10px 0;">
+
+                <div class="grid no-margin">
+                    <div class="row no-margin">
+                        <div class="span3 tile-content icon">
+							<img src="images/l.png">
+						</div>
+						
+                        <div class="span6 padding10">
+                            <h3 class="fg-white">Teknik Informatika</h3>
+                            <p class="fg-white">Politeknik Elektronika Negeri Surabaya</p>
+                        </div>
+                        <div class="span3 padding10">
+                            <a class="button danger " style="width: 100%; margin-bottom: 5px" href="http://google.com">google +</a>
+                            <a class="button info " style="width: 100%; margin-bottom: 5px"  href="https://facebook.com">facebook</a>
+                            <a class="button warning " style="width: 100%; margin-bottom: 5px;"  href="http://twitter.com">Twitter</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container tertiary-text bg-dark fg-white" style="padding: 10px">
+                2014-2015, &copy; by  <a href="https://www.facebook.com/ferdyherlambangharyagung" class="fg-yellow">Ferdy Herlambang Haryagung</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/hitua.js"></script>
+
+</body>
+</html>
